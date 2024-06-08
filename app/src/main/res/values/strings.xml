@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Downloader_LE</string>
+    <string name="a">请输入内容</string>
+    <string name="b">下载文件</string>
+    <string name="editer_text">请输入内容</string>
+    <string name="button_text">提交</string>
+    <string name="textView_text">结果：</string>
+    <string name="p">权限请求结果</string>
+</resources>
