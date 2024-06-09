@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             }
             connection.disconnect();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "", e);
         }
     }
 
