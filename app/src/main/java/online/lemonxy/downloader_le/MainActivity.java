@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "Downloader_LE";
     public String downloadedFile1;
     public String yourFolderPath;
     public final String URL = "http://111.229.209.155/downloads/";
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.submit_button);
         button.setOnClickListener(v -> {
             downloadedFile1 = editText.getText().toString();
-            yourFolderPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+            yourFolderPath = "/storage/emulated/0/";
             if (requestStoragePermissions()) {
                 startDownloadThread();
             }
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 createFileInDirectory(downloadedFile1);
                 downloadFile(URL + downloadedFile1, yourFolderPath + '/' + downloadedFile1);
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e(TAG, "下载失败", e);
             }
         });
         networkThread.start();
@@ -79,9 +81,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 outputStream.close();
                 inputStream.close();
-                System.out.println("文件下载成功，保存路径：" + savePath);
+                Log.i(TAG, "文件下载成功，保存路径：" + savePath);
             } else {
-                System.out.println("文件下载失败，服务器响应码：" + responseCode);
+                Log.e(TAG, "文件下载失败，服务器响应码：" + responseCode);
             }
             connection.disconnect();
         } catch (IOException e) {
@@ -96,13 +98,12 @@ public class MainActivity extends AppCompatActivity {
         try {
             boolean isCreated = newFile.createNewFile();
             if (isCreated) {
-                System.out.println("文件创建成功");
+                Log.i(TAG, "文件创建成功");
             } else {
-                System.out.println("文件已存在");
+                Log.w(TAG, "文件已存在");
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("文件创建失败");
+            Log.e(TAG, "文件创建失败", e);
         }
     }
 
